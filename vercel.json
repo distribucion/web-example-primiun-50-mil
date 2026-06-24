@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd jo-productions-premium && npm install && npm run build",
+  "outputDirectory": "jo-productions-premium/dist",
+  "installCommand": "echo 'skip'"
+}
