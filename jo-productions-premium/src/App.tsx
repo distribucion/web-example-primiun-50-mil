@@ -171,7 +171,8 @@ function Problems() {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.p-card', { opacity: 0, y: 60, stagger: 0.12, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: '.p-grid', start: 'top 80%' } })
+      gsap.set('.p-card', { opacity: 0, y: 60 })
+      gsap.to('.p-card', { opacity: 1, y: 0, stagger: 0.12, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: '.p-grid', start: 'top 82%' } })
     }, ref)
     return () => ctx.revert()
   }, [])
@@ -210,7 +211,8 @@ function Solutions() {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.s-card', { opacity: 0, y: 60, stagger: 0.12, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: '.s-grid', start: 'top 80%' } })
+      gsap.set('.s-card', { opacity: 0, y: 60 })
+      gsap.to('.s-card', { opacity: 1, y: 0, stagger: 0.12, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: '.s-grid', start: 'top 82%' } })
       gsap.utils.toArray<HTMLElement>('.cnt').forEach(el => {
         const t = parseFloat(el.dataset.target || '0'); const f = el.dataset.format
         gsap.from({ v: 0 }, { v: t, duration: 2.2, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 85%', once: true },
@@ -265,13 +267,14 @@ function VideoShowcase({ video: src, poster, eyebrow, title, body }: { video: st
       const setup = () => {
         const dur = v.duration || 15
         st = ScrollTrigger.create({
-          trigger: section.current, start: 'top top', end: '+=200%', pin: true, scrub: 1,
+          trigger: section.current, start: 'top top', end: '+=200%', pin: true, pinSpacing: true, scrub: 1,
           onUpdate: self => { if (!isNaN(dur)) v.currentTime = dur * self.progress },
         })
       }
       if (v.readyState >= 1) setup()
       else v.addEventListener('loadedmetadata', setup, { once: true })
-      gsap.from(text.current, { opacity: 0, y: 40, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: section.current, start: 'top 70%' } })
+      gsap.set(text.current, { opacity: 0, y: 40 })
+      gsap.to(text.current, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: section.current, start: 'top 80%' } })
       return () => { st?.kill() }
     }, section)
     return () => ctx.revert()
@@ -300,7 +303,8 @@ function Method() {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.m-step', { opacity: 0, y: 50, stagger: 0.2, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: '.m-steps', start: 'top 80%' } })
+      gsap.set('.m-step', { opacity: 0, y: 50 })
+      gsap.to('.m-step', { opacity: 1, y: 0, stagger: 0.2, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: '.m-steps', start: 'top 82%' } })
     }, ref)
     return () => ctx.revert()
   }, [])
@@ -335,7 +339,8 @@ function Testimonials() {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.t-card', { opacity: 0, y: 50, stagger: 0.18, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: '.t-grid', start: 'top 80%' } })
+      gsap.set('.t-card', { opacity: 0, y: 50 })
+      gsap.to('.t-card', { opacity: 1, y: 0, stagger: 0.18, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: '.t-grid', start: 'top 82%' } })
     }, ref)
     return () => ctx.revert()
   }, [])
@@ -379,7 +384,8 @@ function Why() {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.w-item', { opacity: 0, y: 40, stagger: 0.1, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: '.w-list', start: 'top 80%' } })
+      gsap.set('.w-item', { opacity: 0, y: 40 })
+      gsap.to('.w-item', { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: '.w-list', start: 'top 82%' } })
     }, ref)
     return () => ctx.revert()
   }, [])
@@ -450,7 +456,8 @@ function Contact() {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.c-form', { opacity: 0, y: 50, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: '.c-form', start: 'top 82%' } })
+      gsap.set('.c-form', { opacity: 0, y: 50 })
+      gsap.to('.c-form', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: '.c-form', start: 'top 82%' } })
     }, ref)
     return () => ctx.revert()
   }, [])
@@ -533,7 +540,11 @@ export default function App() {
       gsap.to(el, { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%' } })
     })
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) gsap.globalTimeline.timeScale(100)
-    return () => { lenis.destroy(); ScrollTrigger.getAll().forEach(t => t.kill()) }
+    // Refresh after full load so pinned sections' extra scroll-space is accounted for
+    const onLoad = () => setTimeout(() => ScrollTrigger.refresh(), 200)
+    if (document.readyState === 'complete') onLoad()
+    else window.addEventListener('load', onLoad)
+    return () => { lenis.destroy(); ScrollTrigger.getAll().forEach(t => t.kill()); window.removeEventListener('load', onLoad) }
   }, [])
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
