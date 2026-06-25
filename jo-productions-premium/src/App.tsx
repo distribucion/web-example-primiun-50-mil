@@ -12,6 +12,8 @@ const A = {
   heroPoster: `${CDN}/hf_20260625_074437_54ea2063-f9dc-48cb-a53f-232706637938.png`,
   flowVideo: `${CDN}/hf_20260625_074806_e8c8e450-9729-47bf-af53-57228f3131b6.mp4`,
   flowPoster: `${CDN}/hf_20260625_074445_124213bf-0773-4f8f-b54b-da22f6fd73ad.png`,
+  silkVideo: `${CDN}/hf_20260625_080122_d47d76e7-f40c-4fa0-a2af-c2128d3e3df1.mp4`,
+  silkPoster: `${CDN}/hf_20260625_075637_8df7e872-27b1-4963-969f-491a21f516d1.png`,
   drDupont: `${CDN}/hf_20260625_074451_6c5dad1f-a037-4494-ab82-8e0656ae0eb0.png`,
   drMartin: `${CDN}/hf_20260625_074457_c0b389fa-131f-40a3-882e-155d0c4639fd.png`,
   iconPatient: `${CDN}/hf_20260625_074522_6d2fa808-bda7-4ccb-bcde-7bfbc961f409.png`,
@@ -252,7 +254,7 @@ function Solutions() {
 }
 
 // ─── Scroll-scrub video showcase ─────────────────────────────────────────────
-function VideoShowcase() {
+function VideoShowcase({ video: src, poster, eyebrow, title, body }: { video: string; poster: string; eyebrow: string; title: React.ReactNode; body: string }) {
   const section = useRef<HTMLDivElement>(null)
   const video = useRef<HTMLVideoElement>(null)
   const text = useRef<HTMLDivElement>(null)
@@ -276,17 +278,17 @@ function VideoShowcase() {
   }, [])
   return (
     <section ref={section} className="relative h-screen overflow-hidden flex items-center justify-center">
-      <video ref={video} className="absolute inset-0 w-full h-full object-cover" muted playsInline preload="auto" poster={A.flowPoster}>
-        <source src={A.flowVideo} type="video/mp4" />
+      <video ref={video} className="absolute inset-0 w-full h-full object-cover" muted playsInline preload="auto" poster={poster}>
+        <source src={src} type="video/mp4" />
       </video>
       <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, rgba(8,9,12,0.3), rgba(8,9,12,0.8))' }} />
       <div ref={text} className="relative z-10 text-center px-6 max-w-3xl">
-        <div className="mb-7 flex justify-center"><span className="eyebrow">L'intelligence en mouvement</span></div>
+        <div className="mb-7 flex justify-center"><span className="eyebrow">{eyebrow}</span></div>
         <h2 className="font-serif" style={{ fontSize: 'clamp(36px, 5.5vw, 80px)', color: 'var(--ivory)', lineHeight: 1.04, letterSpacing: '-0.02em', fontWeight: 400 }}>
-          Chaque interaction,<br /><span className="accent-italic gold-text">orchestrée par l'IA.</span>
+          {title}
         </h2>
         <p className="font-sans mx-auto mt-7" style={{ maxWidth: '440px', color: 'var(--text)', fontSize: '17px', lineHeight: 1.7 }}>
-          De la première prise de contact au suivi post-consultation, votre clinique fonctionne en silence — et sans relâche.
+          {body}
         </p>
       </div>
     </section>
@@ -539,10 +541,23 @@ export default function App() {
       <Hero />
       <Problems />
       <Solutions />
-      <VideoShowcase />
+      <VideoShowcase
+        video={A.flowVideo}
+        poster={A.flowPoster}
+        eyebrow="L'intelligence en mouvement"
+        title={<>Chaque interaction,<br /><span className="accent-italic gold-text">orchestrée par l'IA.</span></>}
+        body="De la première prise de contact au suivi post-consultation, votre clinique fonctionne en silence — et sans relâche."
+      />
       <Method />
       <Testimonials />
       <Why />
+      <VideoShowcase
+        video={A.silkVideo}
+        poster={A.silkPoster}
+        eyebrow="Le temps retrouvé"
+        title={<>Reprenez le temps<br /><span className="accent-italic gold-text">qui vous appartient.</span></>}
+        body="Pendant que l'IA gère l'administratif, vous vous consacrez à l'essentiel : vos patientes."
+      />
       <FAQ />
       <Contact />
       <Footer />
